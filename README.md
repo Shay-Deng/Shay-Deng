@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/header.svg?v=2" width="100%" alt="Howie Deng — Java backend, AI agents and open source. Build with intent. Go deep." />
+  <img src="https://raw.githubusercontent.com/Shay-Deng/Shay-Deng/4ce5c0c81345214bab4fefb9732c36a23106baa2/assets/header.svg" width="100%" alt="Howie Deng — Java backend, AI agents and open source. Build with intent. Go deep." />
 </p>
 
 <p align="center">
