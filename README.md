@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/header.svg" width="100%" alt="Howie Deng — NYU CS. Java, AI engineering and open source. Build with intent. Go deep." />
+  <img src="./assets/header.svg" width="100%" alt="Howie Deng — Java backend, AI agents and open source. Build with intent. Go deep." />
 </p>
 
 <p align="center">
@@ -10,12 +10,14 @@
 
 <br />
 
-### A little context
+### Java backend & AI agents
 
-I'm **Howie**, studying computer science at **NYU**. My current focus is **Java and AI infrastructure**, with a particular interest in how systems behave at the edges: streaming, cancellation, concurrency, and failure handling.
+Building backend services and AI agent applications with **Java**, **Spring AI**, and **LangChain / LangChain4j**.
 
 <p>
   <img alt="Java" src="https://img.shields.io/badge/Java-171b30?style=for-the-badge&amp;logo=openjdk&amp;logoColor=c4b5fd" />
+  <img alt="Spring AI" src="https://img.shields.io/badge/Spring_AI-171b30?style=for-the-badge&amp;logo=spring&amp;logoColor=67e8f9" />
+  <img alt="LangChain" src="https://img.shields.io/badge/LangChain-171b30?style=for-the-badge&amp;logo=langchain&amp;logoColor=c4b5fd" />
   <img alt="LangChain4j" src="https://img.shields.io/badge/LangChain4j-171b30?style=for-the-badge&amp;logoColor=67e8f9" />
   <img alt="JUnit 5" src="https://img.shields.io/badge/JUnit_5-171b30?style=for-the-badge&amp;logo=junit5&amp;logoColor=67e8f9" />
   <img alt="Maven" src="https://img.shields.io/badge/Maven-171b30?style=for-the-badge&amp;logo=apachemaven&amp;logoColor=c4b5fd" />
@@ -44,10 +46,10 @@ I'm **Howie**, studying computer science at **NYU**. My current focus is **Java 
 
 ### What I'm exploring
 
-| Java systems | AI infrastructure | Engineering practice |
+| Java backend | AI agents | Engineering practice |
 | :--- | :--- | :--- |
-| Streaming & concurrency | LLM integration & routing | Focused fixes & regression tests |
-| Lifecycle & cancellation | Failure handling & failover | Reading and working in public codebases |
+| Backend services & APIs | Spring AI · LangChain · LangChain4j | Focused fixes & regression tests |
+| Streaming & concurrency | Agent workflows & model integration | Open-source collaboration |
 
 <br />
 
