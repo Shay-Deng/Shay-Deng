@@ -57,8 +57,8 @@ I work on the plumbing that lets AI agents talk to each other: protocol conforma
 ### Open source
 
 <!-- oss:start -->
-**Merged upstream:** [Google ADK](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Agoogle&type=pullrequests) · [LangChain4j](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Alangchain4j&type=pullrequests)<br />
-**In review:** [A2A](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Aa2aproject&type=pullrequests) · [Strands Agents](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Astrands-agents&type=pullrequests) · [AgentScope](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Aagentscope-ai&type=pullrequests) · [LangGraph.js](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Alangchain-ai&type=pullrequests) · [Spring AI](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Aspring-projects&type=pullrequests)
+**Merged upstream:** [AgentScope](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Aagentscope-ai&type=pullrequests) · [Google ADK](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Agoogle&type=pullrequests) · [LangChain4j](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Alangchain4j&type=pullrequests)<br />
+**In review:** [A2A](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Aa2aproject&type=pullrequests) · [Strands Agents](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Astrands-agents&type=pullrequests) · [LangGraph.js](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Alangchain-ai&type=pullrequests) · [Spring AI](https://github.com/search?q=is%3Apr%20author%3AShay-Deng%20org%3Aspring-projects&type=pullrequests)
 <!-- oss:end -->
 
 <br />
