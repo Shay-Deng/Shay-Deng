@@ -1,7 +1,9 @@
-"""Refresh the open-source contribution list in README.md.
+"""Refresh the open-source project summary in README.md.
 
-Lists public pull requests authored by USER in repositories owned by someone
-else, grouped into merged and open. Closed-without-merge PRs are left out.
+Looks up public pull requests authored by USER in repositories owned by
+someone else and names the projects in two lines: merged upstream, and in
+review. A project with any merged PR is listed only as merged. Closed PRs
+that were not merged are ignored. Each name links to USER's PRs there.
 Only the block between the oss:start / oss:end markers is rewritten.
 
 Standard library only. Set GITHUB_TOKEN for a higher API rate limit.
@@ -20,6 +22,16 @@ from pathlib import Path
 USER = "Shay-Deng"
 # Owners whose PRs should not appear (own repos, take-home exercises).
 EXCLUDED_OWNERS = {USER.lower(), "omnilink-systems-inc"}
+# Display names, keyed by repository owner (lowercase).
+PROJECT_NAMES = {
+    "google": "Google ADK",
+    "a2aproject": "A2A",
+    "langchain4j": "LangChain4j",
+    "strands-agents": "Strands Agents",
+    "agentscope-ai": "AgentScope",
+    "spring-projects": "Spring AI",
+    "langchain-ai": "LangGraph.js",
+}
 
 README = Path(__file__).resolve().parent.parent / "README.md"
 START = "<!-- oss:start -->"
@@ -53,65 +65,51 @@ def search_prs() -> list[dict]:
         page += 1
 
 
-def cell(text: str) -> str:
-    return (
-        text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace("|", "\\|")
-        .strip()
-    )
+def merged_at(item: dict) -> str | None:
+    """Merge time, counting PRs merged outside GitHub (e.g. Google's Copybara).
+
+    Those are closed rather than merged, and carry a "merged" label.
+    """
+    merged = (item.get("pull_request") or {}).get("merged_at")
+    if merged:
+        return merged
+    labels = {label["name"].lower() for label in item.get("labels", [])}
+    if item["state"] == "closed" and "merged" in labels:
+        return item["closed_at"]
+    return None
 
 
-def collect(items: list[dict]) -> tuple[list[dict], list[dict]]:
-    merged, open_ = [], []
+def collect(items: list[dict]) -> tuple[list[str], list[str]]:
+    """Return owners with merged PRs and owners with only open PRs, newest first."""
+    merged: dict[str, str] = {}
+    open_: dict[str, str] = {}
     for item in items:
         repo = item["repository_url"].split("/repos/", 1)[1]
-        if repo.split("/")[0].lower() in EXCLUDED_OWNERS:
+        owner = repo.split("/")[0].lower()
+        if owner in EXCLUDED_OWNERS:
             continue
-        row = {
-            "repo": repo,
-            "number": item["number"],
-            "title": item["title"],
-            "url": item["html_url"],
-            "draft": item.get("draft", False),
-            "created": item["created_at"][:10],
-            "merged": (item.get("pull_request") or {}).get("merged_at"),
-        }
-        if row["merged"]:
-            merged.append(row)
+        when = merged_at(item)
+        if when:
+            merged[owner] = max(merged.get(owner, ""), when)
         elif item["state"] == "open":
-            open_.append(row)
-    merged.sort(key=lambda r: r["merged"], reverse=True)
-    open_.sort(key=lambda r: r["created"], reverse=True)
-    return merged, open_
+            open_[owner] = max(open_.get(owner, ""), item["created_at"])
+    merged_owners = sorted(merged, key=merged.__getitem__, reverse=True)
+    open_owners = sorted(open_, key=open_.__getitem__, reverse=True)
+    return merged_owners, [o for o in open_owners if o not in merged]
 
 
-def table(rows: list[dict], date_label: str, date_key: str) -> list[str]:
-    lines = [f"| Project | Pull request | {date_label} |", "| :-- | :-- | :-- |"]
-    for r in rows:
-        draft = " <sub>(draft)</sub>" if r["draft"] else ""
-        lines.append(
-            f"| [{r['repo']}](https://github.com/{r['repo']}) "
-            f"| [#{r['number']}]({r['url']}) {cell(r['title'])}{draft} "
-            f"| {r[date_key][:10].replace('-', '&#8209;')} |"
-        )
-    return lines
+def link(owner: str) -> str:
+    query = urllib.parse.quote(f"is:pr author:{USER} org:{owner}")
+    name = PROJECT_NAMES.get(owner, owner)
+    return f"[{name}](https://github.com/search?q={query}&type=pullrequests)"
 
 
-def render(merged: list[dict], open_: list[dict]) -> str:
-    projects = {r["repo"] for r in merged + open_}
-    lines = [
-        START,
-        f"<sub>{len(merged)} merged &nbsp;·&nbsp; {len(open_)} in review "
-        f"&nbsp;·&nbsp; {len(projects)} projects &nbsp;·&nbsp; "
-        "updated daily by <code>scripts/update_readme.py</code></sub>",
-        "",
-    ]
+def render(merged: list[str], open_: list[str]) -> str:
+    lines = [START]
     if merged:
-        lines += ["**Merged**", "", *table(merged, "Merged", "merged"), ""]
+        lines.append("**Merged upstream:** " + " · ".join(map(link, merged)) + "<br />")
     if open_:
-        lines += ["**In review**", "", *table(open_, "Opened", "created"), ""]
+        lines.append("**In review:** " + " · ".join(map(link, open_)))
     lines.append(END)
     return "\n".join(lines)
 
@@ -126,7 +124,7 @@ def main() -> int:
     updated = pattern.sub(lambda _: render(merged, open_), text, count=1)
     if updated != text:
         README.write_text(updated, encoding="utf-8")
-    print(f"{len(merged)} merged, {len(open_)} open")
+    print(f"merged: {', '.join(merged)}; in review: {', '.join(open_)}")
     return 0
 
 
