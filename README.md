@@ -34,10 +34,10 @@ I work on the plumbing that lets AI agents talk to each other: protocol conforma
 <tr><td>
 <br />
 <strong>01 &nbsp; / &nbsp; A2A PROTOCOL CONFORMANCE</strong>
-<h3>Testing agents against the spec, then fixing what the tests find.</h3>
-<p>Contributing to the A2A Technology Compatibility Kit (<code>a2a-tck</code>) and running it against the reference Python SDK. One run showed that HTTP+JSON error responses were not served with the A2A media type the spec asks for; I traced it to the shared error handler and fixed it in <code>a2a-python</code>.</p>
-<p><code>Protocol specs</code> &nbsp; <code>JSON-RPC · HTTP+JSON · gRPC</code> &nbsp; <code>pytest</code></p>
-<p><a href="https://github.com/a2aproject/a2a-python/pull/1446"><strong>a2a-python #1446 →</strong></a> &nbsp; · &nbsp; <a href="https://github.com/a2aproject/a2a-tck/pull/268">a2a-tck #268</a> &nbsp; · &nbsp; <a href="https://github.com/a2aproject/a2a-tck/pull/269">a2a-tck #269</a></p>
+<h3>Running the conformance suites against the A2A SDKs, then fixing what they find.</h3>
+<p>I run the A2A conformance tests (TCK and ITK) against the SDKs and fix the gaps they turn up, each one tied to a spec clause: HTTP+JSON errors served with the A2A media type in <code>a2a-python</code>; unknown JSON fields ignored, and no stream opened when the agent card doesn't support streaming, in <code>a2a-java</code>.</p>
+<p><code>Protocol specs</code> &nbsp; <code>JSON-RPC · HTTP+JSON · gRPC</code> &nbsp; <code>pytest · JUnit</code></p>
+<p><a href="https://github.com/a2aproject/a2a-python/pull/1446"><strong>a2a-python #1446 →</strong></a> &nbsp; · &nbsp; <a href="https://github.com/a2aproject/a2a-java/pull/1317">a2a-java #1317</a> &nbsp; · &nbsp; <a href="https://github.com/a2aproject/a2a-java/pull/1356">#1356</a></p>
 <br />
 </td></tr>
 <tr><td>
@@ -46,8 +46,9 @@ I work on the plumbing that lets AI agents talk to each other: protocol conforma
 <h3>Small, tested fixes in agent SDKs.</h3>
 <p><strong>Google ADK</strong>: kept empty signed thinking blocks intact when replaying Claude conversation history, so multi-turn tool calls send the model exactly what it returned.</p>
 <p><strong>LangChain4j</strong>: made <code>StreamingModelRouter</code> signal an error, cancel upstream work and terminate exactly once on invalid demand, and kept native async chat delegation when routing.</p>
+<p><strong>AgentScope</strong>: let a failed managed turn be cancelled, so it releases the session instead of holding it.</p>
 <p><code>Python</code> &nbsp; <code>Java · Reactive Streams</code> &nbsp; <code>Regression tests</code></p>
-<p><a href="https://github.com/google/adk-python/pull/7500"><strong>Google ADK #7500 →</strong></a> &nbsp; · &nbsp; <a href="https://github.com/langchain4j/langchain4j-community/pull/792">LangChain4j #792</a> &nbsp; · &nbsp; <a href="https://github.com/langchain4j/langchain4j-community/pull/794">#794</a></p>
+<p><a href="https://github.com/google/adk-python/pull/7500"><strong>Google ADK #7500 →</strong></a> &nbsp; · &nbsp; <a href="https://github.com/langchain4j/langchain4j-community/pull/792">LangChain4j #792</a> &nbsp; · &nbsp; <a href="https://github.com/langchain4j/langchain4j-community/pull/794">#794</a> &nbsp; · &nbsp; <a href="https://github.com/agentscope-ai/agentscope-java/pull/4033">AgentScope #4033</a></p>
 <br />
 </td></tr>
 </table>
